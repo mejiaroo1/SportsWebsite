@@ -54,6 +54,8 @@
   background-color: #2a2a2a;
 }
 
+/* navigation link styles */
+
 .nav-link {
   text-decoration: none;
   color: white;
@@ -74,18 +76,6 @@
 
 .nav-link:hover::after {
   width: 100%;
-}
-
-  /* pill button for CT button*/
-
-.pill-btn {
-  padding: 6px 16px;
-  border-radius: 999px;  
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .pill-btn:hover {
@@ -163,4 +153,116 @@
   border-radius: 8px;
   padding: 20px;
   text-align: center;
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .search-bar {
+    width: 160px;
+  }
+
+  .cards-container {
+    gap: 25px;
+  }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .nav-left,
+  .nav-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;  /* stack cards */
+    padding: 20px;
+  }
+
+  .sport-card {
+    min-height: auto;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .pill-btn,
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .circle-btn {
+    width: 35px;
+    height: 35px;
+  }
+
+  .search-bar {
+    font-size: 0.9rem;
+  }
+}
+
+.dropdown-menu {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: center;
+  gap: 40px;                 /* spacing between links */
+  padding: 18px 0;
+  animation: slideDown 0.25s ease;
+}
+
+.dropdown-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Same underline animation as About Us */
+.dropdown-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  transition: width 0.2s ease;
+}
+
+.dropdown-link:hover::after {
+  width: 100%;
+}
+
+/* smooth animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
