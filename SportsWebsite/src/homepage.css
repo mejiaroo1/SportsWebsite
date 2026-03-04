@@ -172,7 +172,7 @@
   .top-nav {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: .2px;
   }
 
   .nav-left,
@@ -188,7 +188,7 @@
 
   .cards-container {
     grid-template-columns: 1fr;  /* stack cards */
-    padding: 20px;
+    padding: 20px 10px;
   }
 
   .sport-card {
@@ -265,4 +265,123 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.sport-card {
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+/* Animate disappearing cards */
+.hidden {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+/* Expanded card */
+.expanded {
+  position: fixed;
+  top: 100px;
+  left: 1in;
+  right: 1in;
+  height: calc(100vh - 140px);
+  z-index: 1000;
+  overflow-y: auto;
+  cursor: default;
+
+  animation: expandCard 0.4s ease forwards;
+}
+
+/* Smooth expansion animation */
+@keyframes expandCard {
+  from {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.close-btn:hover {
+  opacity: 0.6;
+}
+
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #111;
+}
+
+body.light-mode .homepage,
+body.light-mode .aboutpage {
+  background-color: #f5f5f5;
+  color: #111;
+}
+
+body.light-mode .top-nav {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+body.light-mode .sport-card {
+  background: white;
+  border: 1px solid #ddd;
+}
+
+body.light-mode .live-score,
+body.light-mode .standings {
+  background: #f0f0f0;
+}
+
+body.light-mode .nav-link,
+body.light-mode .dropdown-link {
+  color: #111;
+}
+
+body.light-mode .nav-link::after,
+body.light-mode .dropdown-link::after {
+  background-color: #111;
+}
+
+body.light-mode .search-bar {
+  background: white;
+  color: #111;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .icon-btn,
+body.light-mode .circle-btn,
+body.light-mode .nav-btn {
+  background-color: white;
+  border: 1px solid #ccc;
+  color: #111;
+}
+
+body.light-mode .dropdown-menu {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+body.light-mode .dropdown-link {
+  color: #111;
+}
+
+body.light-mode .dropdown-link::after {
+  background-color: #111;
 }

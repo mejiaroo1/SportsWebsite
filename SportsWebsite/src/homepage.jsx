@@ -1,68 +1,63 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 import "./HomePage.css";
 
 export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState(null);
+
+  const sports = [
+    "Basketball",
+    "Baseball",
+    "Motorsport",
+    "Soccer",
+    "Fighting",
+    "More"
+  ];
 
   return (
     <div className="homepage">
 
-      <header className="top-nav">
-        <div className="nav-left">
-          <button 
-            className="icon-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            ☰
-          </button> 
-
-          <h1 className="logo">DataPlay</h1>
-          <Link to="/about" className="nav-link">About Us</Link>
-        </div>
-
-        <div className="nav-center">
-          <input
-            type="text"
-            placeholder="Search teams, players, leagues..."
-            className="search-bar"
-          />
-        </div>
-
-        <div className="nav-right">
-          <button className="circle-btn">🌙</button> 
-          <button className="nav-btn">Sign In</button>
-        </div>
-      </header>
-
-      {/* Dropdown Menu */}
-      {menuOpen && (
-        <div className="dropdown-menu">
-          <Link to="/sports/basketball" className="dropdown-link">Basketball</Link>
-          <Link to="/sports/baseball" className="dropdown-link">Baseball</Link>
-          <Link to="/sports/motorsport" className="dropdown-link">Motorsport</Link>
-          <Link to="/sports/soccer" className="dropdown-link">Soccer</Link>
-          <Link to="/sports/fighting" className="dropdown-link">Fighting</Link>
-          <Link to="/sports/more" className="dropdown-link">More</Link>
-        </div>
-      )}
+      <Navbar />
 
       <main className="cards-container">
-        <SportCard title="Basketball" />
-        <SportCard title="Baseball" />
-        <SportCard title="Motorsport" />
-        <SportCard title="Soccer" />
-        <SportCard title="Fighting" />
-        <SportCard title="More" />
+
+        {sports.map((sport) => (
+          <SportCard
+            key={sport}
+            title={sport}
+            isActive={activeCard === sport}
+            isHidden={activeCard && activeCard !== sport}
+            onClick={() => setActiveCard(sport)}
+            onClose={() => setActiveCard(null)}
+          />
+        ))}
+
       </main>
 
     </div>
   );
 }
 
-function SportCard({ title }) {
+function SportCard({ title, isActive, isHidden, onClick, onClose }) {
   return (
-    <div className="sport-card">
+    <div
+      className={`sport-card 
+        ${isActive ? "expanded" : ""} 
+        ${isHidden ? "hidden" : ""}`}
+      onClick={!isActive ? onClick : undefined}
+    >
+      {isActive && (
+        <button
+          className="close-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+        >
+          ✕
+        </button>
+      )}
+
       <div className="card-header">
         <span className="add-icon">＋</span>
         <h2>{title}</h2>

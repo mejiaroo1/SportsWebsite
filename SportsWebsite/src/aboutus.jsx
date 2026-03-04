@@ -1,31 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 import "./AboutUs.css";
 
 export default function AboutUs() {
   return (
     <div className="aboutpage">
 
-      <header className="top-nav">
-        <div className="nav-left">
-          <button className="icon-btn">☰</button>
-          <h1 className="logo">DataPlay</h1>
-          <Link to="/" className="nav-link">HomePage</Link>
-        </div>
-
-        <div className="nav-center">
-          <input
-            type="text"
-            placeholder="Search teams, players, leagues..."
-            className="search-bar"
-          />
-        </div>
-
-        <div className="nav-right">
-          <button className="circle-btn">🌙</button>
-          <button className="nav-btn">Sign In</button>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="about-content">
         

@@ -126,3 +126,51 @@
   margin-bottom: 15px;
   line-height: 1.6;
 }
+
+.dropdown-menu {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: center;
+  gap: 40px;                 /* spacing between links */
+  padding: 18px 0;
+  animation: slideDown 0.25s ease;
+}
+
+.dropdown-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Same underline animation as About Us */
+.dropdown-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  transition: width 0.2s ease;
+}
+
+.dropdown-link:hover::after {
+  width: 100%;
+}
+
+/* smooth animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
