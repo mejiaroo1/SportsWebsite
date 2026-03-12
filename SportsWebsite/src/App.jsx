@@ -1,7 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage";
-import AboutUs from "./AboutUs";
+import HomePage from "./homepage";
+import AboutUs from "./aboutus";
+import LeagueDetail from "./LeagueDetail.jsx";
+import TeamDetail from "./TeamDetail.jsx";
+import PlayerDetail from "./PlayerDetail.jsx";
 
 function App() {
   return (
@@ -9,6 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/league/:id" element={<LeagueDetail />} />
+        <Route path="/team/:id" element={<TeamDetail />} />
+        <Route path="/player/:id" element={<PlayerDetail />} />
       </Routes>
     </Router>
   );
