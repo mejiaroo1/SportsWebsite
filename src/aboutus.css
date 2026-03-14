@@ -1,0 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.aboutpage {
+  min-height: 100vh;
+  background-color: #111;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* top of navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 1px solid #333;
+  width: 100%;
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-btn,
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.nav-btn,
+.icon-btn:hover {
+  background-color: #2a2a2a;
+}
+
+  /* pill button for CT button*/
+
+.pill-btn {
+  padding: 6px 16px;
+  border-radius: 999px;  
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+  background-color: #2a2a2a;
+}
+
+/* circle button for dark/light mode button */
+
+.circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;        
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.circle-btn:hover {
+  background-color: #2a2a2a;
+  border-color: #555;
+}
+
+.search-bar {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #222;
+  color: white;
+  width: 420px;
+}
+
+.about-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-content h2 {
+  margin-bottom: 20px;
+}
+
+.about-content p {
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.about-content ul {
+  list-style-position: inside;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.about-content li {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.dropdown-menu {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: center;
+  gap: 40px;                 /* spacing between links */
+  padding: 18px 0;
+  animation: slideDown 0.25s ease;
+}
+
+.dropdown-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Same underline animation as About Us */
+.dropdown-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  transition: width 0.2s ease;
+}
+
+.dropdown-link:hover::after {
+  width: 100%;
+}
+
+/* smooth animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
