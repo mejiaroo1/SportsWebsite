@@ -1,7 +1,8 @@
+/* ==================== BASE STYLES ==================== */
 .basketball-page {
   min-height: 100vh;
-  background: #050505;
-  color: white;
+  background: #121212;
+  color: #f0f0f0;
   padding: 28px 0 40px 0;
 }
 
@@ -23,17 +24,14 @@
 .basketball-panel,
 .leader-card,
 .highlight-box,
-.player-card {
-  background: #121212;
+.player-card,
+.featured-teams {
+  background: #1e1e1e;
   border: 1px solid #262626;
   border-radius: 16px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
-}
-
-.basketball-hero-left,
-.basketball-hero-right,
-.basketball-panel {
   padding: 22px;
+  color: #f0f0f0;
 }
 
 .basketball-small-title {
@@ -90,6 +88,7 @@
   background: #252525;
 }
 
+/* Featured section */
 .featured-label {
   display: inline-block;
   font-size: 13px;
@@ -139,6 +138,7 @@
   color: #9b9b9b;
 }
 
+/* Leaders grid */
 .leaders-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -159,20 +159,15 @@
 .leader-card h3 {
   font-size: 18px;
   margin-bottom: 6px;
-  color: white;
+  color: #ffffff;
 }
 
 .leader-card span {
   color: #c8c8c8;
 }
 
-.basketball-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
+/* Main grid */
+.basketball-main-grid,
 .basketball-bottom-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -191,9 +186,10 @@
 
 .panel-title-row h2 {
   font-size: 24px;
-  color: white;
+  color: #ffffff;
 }
 
+/* List items */
 .list-items {
   display: flex;
   flex-direction: column;
@@ -211,7 +207,7 @@
 
 .row-title {
   font-size: 18px;
-  color: white;
+  color: #ffffff;
   margin-bottom: 6px;
   font-weight: 600;
 }
@@ -222,6 +218,7 @@
   font-size: 16px;
 }
 
+/* Player search */
 .player-search {
   background: #0d0d0d;
   color: white;
@@ -235,19 +232,16 @@
   color: #7f7f7f;
 }
 
+/* Player cards */
 .player-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.player-card {
-  padding: 16px;
-}
-
 .player-card h3 {
   margin-bottom: 6px;
-  color: white;
+  color: #ffffff;
 }
 
 .player-card p {
@@ -259,6 +253,7 @@
   color: #d0d0d0;
 }
 
+/* Standings table */
 .standings-table-wrap {
   overflow-x: auto;
 }
@@ -273,7 +268,7 @@
   text-align: left;
   padding: 14px 10px;
   border-bottom: 1px solid #262626;
-  color: white;
+  color: #ffffff;
 }
 
 .standings-table th {
@@ -286,6 +281,7 @@
   background: #171717;
 }
 
+/* Highlights */
 .basketball-highlights {
   margin-bottom: 10px;
 }
@@ -296,12 +292,8 @@
   gap: 14px;
 }
 
-.highlight-box {
-  padding: 18px;
-}
-
 .highlight-box h3 {
-  color: white;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
@@ -310,6 +302,7 @@
   line-height: 1.6;
 }
 
+/* ==================== RESPONSIVE ==================== */
 @media (max-width: 1000px) {
   .basketball-hero,
   .leaders-grid,
@@ -348,4 +341,89 @@
   .align-right {
     text-align: left;
   }
+}
+
+/* ==================== LIGHT MODE ==================== */
+body.light-mode .basketball-page {
+  background-color: #f5f5f5;
+  color: #111;
+}
+
+body.light-mode .basketball-container {
+  background-color: transparent;
+}
+
+body.light-mode .basketball-hero-left,
+body.light-mode .basketball-hero-right,
+body.light-mode .basketball-panel,
+body.light-mode .leader-card,
+body.light-mode .highlight-box,
+body.light-mode .player-card,
+body.light-mode .featured-teams {
+  background-color: #ffffff;
+  color: #111;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .basketball-small-title {
+  color: #555;
+}
+
+body.light-mode .basketball-subtitle {
+  color: #333;
+}
+
+body.light-mode .basketball-hero-left h1,
+body.light-mode .leader-card h3,
+body.light-mode .highlight-box h3,
+body.light-mode .player-card h3,
+body.light-mode .panel-title-row h2 {
+  color: #111;
+}
+
+body.light-mode .row-title {
+  color: #111;
+}
+
+body.light-mode .row-sub {
+  color: #0073e6;
+}
+
+body.light-mode .player-card p,
+body.light-mode .player-card span {
+  color: #444;
+}
+
+body.light-mode .standings-table th,
+body.light-mode .standings-table td {
+  color: #111;
+  border-bottom: 1px solid #ccc;
+}
+
+body.light-mode .standings-table tr:hover {
+  background-color: #eee;
+}
+
+body.light-mode .basketball-btn-primary {
+  background: #111;
+  color: #f5f5f5;
+}
+
+body.light-mode .basketball-btn-primary:hover {
+  background: #333;
+}
+
+body.light-mode .basketball-btn-secondary {
+  background: #eee;
+  color: #111;
+  border: 1px solid #ccc;
+}
+
+body.light-mode .basketball-btn-secondary:hover {
+  background: #ddd;
+}
+
+body.light-mode a {
+  color: #1e40af;
 }

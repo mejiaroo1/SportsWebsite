@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import Navbar from "./Navbar"; // Added Navbar
 import "./basketball.css";
 
 function Basketball() {
@@ -57,176 +58,181 @@ function Basketball() {
   }, [search]);
 
   return (
-    <div className="basketball-page">
-      <div className="basketball-container">
-        <section className="basketball-hero">
-          <div className="basketball-hero-left">
-            <p className="basketball-small-title">NBA COVERAGE</p>
-            <h1>Basketball Central</h1>
-            <p className="basketball-subtitle">
-              Scores schedules player stats standings and top performers in one place.
-            </p>
+    <>
+      {/* Navbar included at the top */}
+      <Navbar />
 
-            <div className="basketball-hero-buttons">
-              <a href="#standings" className="basketball-btn-primary">View Standings</a>
-              <a href="#players" className="basketball-btn-secondary">Top Players</a>
-            </div>
-          </div>
+      <div className="basketball-page">
+        <div className="basketball-container">
+          <section className="basketball-hero">
+            <div className="basketball-hero-left">
+              <p className="basketball-small-title">NBA COVERAGE</p>
+              <h1>Basketball Central</h1>
+              <p className="basketball-subtitle">
+                Scores schedules player stats standings and top performers in one place.
+              </p>
 
-          <div className="basketball-hero-right">
-            <div className="featured-label">{featuredGame.status}</div>
-            <div className="featured-teams">
-              <div className="featured-team-block">
-                <span className="featured-team-name">{featuredGame.away.team}</span>
-                <span className="featured-team-score">{featuredGame.away.score}</span>
-              </div>
-
-              <div className="featured-vs">VS</div>
-
-              <div className="featured-team-block align-right">
-                <span className="featured-team-name">{featuredGame.home.team}</span>
-                <span className="featured-team-score">{featuredGame.home.score}</span>
+              <div className="basketball-hero-buttons">
+                <a href="#standings" className="basketball-btn-primary">View Standings</a>
+                <a href="#players" className="basketball-btn-secondary">Top Players</a>
               </div>
             </div>
 
-            <p className="featured-note">{featuredGame.note}</p>
-          </div>
-        </section>
+            <div className="basketball-hero-right">
+              <div className="featured-label">{featuredGame.status}</div>
+              <div className="featured-teams">
+                <div className="featured-team-block">
+                  <span className="featured-team-name">{featuredGame.away.team}</span>
+                  <span className="featured-team-score">{featuredGame.away.score}</span>
+                </div>
 
-        <section className="leaders-grid">
-          {leaders.map((item, index) => (
-            <div className="leader-card" key={index}>
-              <p className="leader-label">{item.label}</p>
-              <h3>{item.value}</h3>
-              <span>{item.stat}</span>
+                <div className="featured-vs">VS</div>
+
+                <div className="featured-team-block align-right">
+                  <span className="featured-team-name">{featuredGame.home.team}</span>
+                  <span className="featured-team-score">{featuredGame.home.score}</span>
+                </div>
+              </div>
+
+              <p className="featured-note">{featuredGame.note}</p>
             </div>
-          ))}
-        </section>
+          </section>
 
-        <section className="basketball-main-grid">
-          <div className="basketball-panel">
-            <div className="panel-title-row">
-              <h2>Recent Results</h2>
-            </div>
+          <section className="leaders-grid">
+            {leaders.map((item, index) => (
+              <div className="leader-card" key={index}>
+                <p className="leader-label">{item.label}</p>
+                <h3>{item.value}</h3>
+                <span>{item.stat}</span>
+              </div>
+            ))}
+          </section>
 
-            <div className="list-items">
-              {recentResults.map((game, index) => (
-                <div className="list-row" key={index}>
-                  <div>
-                    <p className="row-title">{game.matchup}</p>
-                    <p className="row-sub">{game.score}</p>
+          <section className="basketball-main-grid">
+            <div className="basketball-panel">
+              <div className="panel-title-row">
+                <h2>Recent Results</h2>
+              </div>
+
+              <div className="list-items">
+                {recentResults.map((game, index) => (
+                  <div className="list-row" key={index}>
+                    <div>
+                      <p className="row-title">{game.matchup}</p>
+                      <p className="row-sub">{game.score}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="basketball-panel">
-            <div className="panel-title-row">
-              <h2>Upcoming Games</h2>
+                ))}
+              </div>
             </div>
 
-            <div className="list-items">
-              {upcomingGames.map((game, index) => (
-                <div className="list-row" key={index}>
-                  <div>
-                    <p className="row-title">{game.matchup}</p>
-                    <p className="row-sub">{game.date}</p>
-                    <p className="row-sub">{game.time}</p>
-                    <p className="row-sub">{game.arena}</p>
+            <div className="basketball-panel">
+              <div className="panel-title-row">
+                <h2>Upcoming Games</h2>
+              </div>
+
+              <div className="list-items">
+                {upcomingGames.map((game, index) => (
+                  <div className="list-row" key={index}>
+                    <div>
+                      <p className="row-title">{game.matchup}</p>
+                      <p className="row-sub">{game.date}</p>
+                      <p className="row-sub">{game.time}</p>
+                      <p className="row-sub">{game.arena}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="basketball-bottom-grid">
-          <div className="basketball-panel" id="players">
-            <div className="panel-title-row">
-              <h2>Top Players</h2>
-              <input
-                type="text"
-                placeholder="Search player or team"
-                className="player-search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
+          <section className="basketball-bottom-grid">
+            <div className="basketball-panel" id="players">
+              <div className="panel-title-row">
+                <h2>Top Players</h2>
+                <input
+                  type="text"
+                  placeholder="Search player or team"
+                  className="player-search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
 
-            <div className="player-list">
-              {filteredPlayers.map((player, index) => (
-                <div className="player-card" key={index}>
-                  <h3>{player.name}</h3>
-                  <p>{player.team}</p>
-                  <span>
-                    {player.pts} PPG | {player.reb} RPG | {player.ast} APG
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="basketball-panel" id="standings">
-            <div className="panel-title-row">
-              <h2>Eastern Conference Standings</h2>
+              <div className="player-list">
+                {filteredPlayers.map((player, index) => (
+                  <div className="player-card" key={index}>
+                    <h3>{player.name}</h3>
+                    <p>{player.team}</p>
+                    <span>
+                      {player.pts} PPG | {player.reb} RPG | {player.ast} APG
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="standings-table-wrap">
-              <table className="standings-table">
-                <thead>
-                  <tr>
-                    <th>Team</th>
-                    <th>W</th>
-                    <th>L</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {standings.map((team, index) => (
-                    <tr key={index}>
-                      <td>{team.team}</td>
-                      <td>{team.w}</td>
-                      <td>{team.l}</td>
+            <div className="basketball-panel" id="standings">
+              <div className="panel-title-row">
+                <h2>Eastern Conference Standings</h2>
+              </div>
+
+              <div className="standings-table-wrap">
+                <table className="standings-table">
+                  <thead>
+                    <tr>
+                      <th>Team</th>
+                      <th>W</th>
+                      <th>L</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section className="basketball-highlights">
-          <div className="basketball-panel">
-            <div className="panel-title-row">
-              <h2>Highlights</h2>
-            </div>
-
-            <div className="highlights-grid">
-              <div className="highlight-box">
-                <h3>Clutch Wins</h3>
-                <p>
-                  Boston continues closing out tight games with strong fourth quarter defense and shot making.
-                </p>
-              </div>
-
-              <div className="highlight-box">
-                <h3>Star Performers</h3>
-                <p>
-                  The league’s best players are still putting up huge scoring numbers every night.
-                </p>
-              </div>
-
-              <div className="highlight-box">
-                <h3>Playoff Race</h3>
-                <p>
-                  Teams in the middle of the standings are fighting for position as the season gets tighter.
-                </p>
+                  </thead>
+                  <tbody>
+                    {standings.map((team, index) => (
+                      <tr key={index}>
+                        <td>{team.team}</td>
+                        <td>{team.w}</td>
+                        <td>{team.l}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          <section className="basketball-highlights">
+            <div className="basketball-panel">
+              <div className="panel-title-row">
+                <h2>Highlights</h2>
+              </div>
+
+              <div className="highlights-grid">
+                <div className="highlight-box">
+                  <h3>Clutch Wins</h3>
+                  <p>
+                    Boston continues closing out tight games with strong fourth quarter defense and shot making.
+                  </p>
+                </div>
+
+                <div className="highlight-box">
+                  <h3>Star Performers</h3>
+                  <p>
+                    The league’s best players are still putting up huge scoring numbers every night.
+                  </p>
+                </div>
+
+                <div className="highlight-box">
+                  <h3>Playoff Race</h3>
+                  <p>
+                    Teams in the middle of the standings are fighting for position as the season gets tighter.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

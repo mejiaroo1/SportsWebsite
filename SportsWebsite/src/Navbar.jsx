@@ -190,7 +190,7 @@ export default function Navbar() {
       )}
 
       <div className="dropdown-menu">
-        <Link to="/sports/basketball" className="dropdown-link">Basketball</Link>
+        <Link to="/basketball" className="dropdown-link">Basketball</Link>
         <Link to="/sports/baseball" className="dropdown-link">Baseball</Link>
         <Link to="/sports/icehockey" className="dropdown-link">Ice Hockey</Link>
         <Link to="/sports/soccer" className="dropdown-link">Soccer</Link>
