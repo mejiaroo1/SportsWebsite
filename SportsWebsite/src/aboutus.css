@@ -46,7 +46,7 @@
   border: 1px solid #333;
   color: white;
   cursor: pointer;
-  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .nav-btn,
