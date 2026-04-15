@@ -1,20 +1,13 @@
 // src/lib/apiClient.js
-// TheSportsDB v2 requires header-based auth (X-API-KEY) and uses a different URL structure.
-// Docs: https://www.thesportsdb.com/documentation
-const API_KEY = import.meta.env.VITE_SPORTS_API_KEY;
-// Always go through the same-origin `/api` proxy from the browser.
-// Vite (dev) forwards `/api/*` to TheSportsDB v2 and injects X-API-KEY server-side.
+// Always go through same-origin `/api` from the browser.
+// Vite (dev) proxies `/api/*` to the local Next backend, which handles API key auth server-side.
 const BASE_URL = "/api";
 
 export async function fetchFromSportsDB(endpoint, options = {}) {
-    if (!API_KEY) {
-        throw new Error("Missing API key. Set VITE_SPORTS_API_KEY in .env or .env.local.");
-    }
-
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const url = `${BASE_URL}${cleanEndpoint}`;
     const headers = new Headers(options.headers || {});
-    // Do NOT set X-API-KEY from the browser – proxy handles auth to avoid CORS issues.
+    // Do NOT set X-API-KEY from the browser.
 
     try {
         const response = await fetch(url, { ...options, headers });
