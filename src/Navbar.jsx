@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { searchLeagues, searchTeams, searchPlayers } from "./api/search.js";
+import { FaHome } from "react-icons/fa";
 import "./HomePage.css";
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [collegeMode, setCollegeMode] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState({
@@ -14,20 +16,21 @@ export default function Navbar() {
     leagues: [],
   });
   const [searchError, setSearchError] = useState(null);
-  const location = useLocation();
 
+  const location = useLocation();
   const isAboutPage = location.pathname === "/about";
 
-  // Load saved theme on mount
+  /* ---------------- THEME ---------------- */
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
+
     if (savedTheme === "light") {
       setDarkMode(false);
       document.body.classList.add("light-mode");
     }
   }, []);
 
-  // Toggle theme
   const toggleTheme = () => {
     if (darkMode) {
       document.body.classList.add("light-mode");
@@ -40,16 +43,36 @@ export default function Navbar() {
     setDarkMode(!darkMode);
   };
 
-  // Simple debounced search
+  /* ---------------- COLLEGE MODE ---------------- */
+
+  const toggleCollegeMode = () => {
+    if (!collegeMode) {
+      document.body.classList.add("college-mode");
+    } else {
+      document.body.classList.remove("college-mode");
+    }
+
+    setCollegeMode(!collegeMode);
+  };
+
+  /* ---------------- SEARCH ---------------- */
+
   useEffect(() => {
     const q = searchQuery.trim();
+
     if (q.length < 3) {
-      setSearchResults({ teams: [], players: [], leagues: [] });
+      setSearchResults({
+        teams: [],
+        players: [],
+        leagues: [],
+      });
+
       setSearchError(null);
       return;
     }
 
     let cancelled = false;
+
     setSearching(true);
     setSearchError(null);
 
@@ -60,7 +83,9 @@ export default function Navbar() {
           searchPlayers(q),
           searchLeagues(q),
         ]);
+
         if (cancelled) return;
+
         setSearchResults({
           teams: teams?.slice(0, 5) || [],
           players: players?.slice(0, 5) || [],
@@ -68,8 +93,14 @@ export default function Navbar() {
         });
       } catch (err) {
         if (cancelled) return;
+
         setSearchError(err.message || "Search failed");
-        setSearchResults({ teams: [], players: [], leagues: [] });
+
+        setSearchResults({
+          teams: [],
+          players: [],
+          leagues: [],
+        });
       } finally {
         if (!cancelled) setSearching(false);
       }
@@ -79,6 +110,7 @@ export default function Navbar() {
       cancelled = true;
       clearTimeout(handle);
     };
+
   }, [searchQuery]);
 
   const hasResults =
@@ -86,27 +118,40 @@ export default function Navbar() {
     searchResults.players.length ||
     searchResults.leagues.length;
 
+  /* ---------------- UI ---------------- */
+
   return (
     <>
       <header className="top-nav">
-        <div className="nav-left">
-          <button 
-            className="icon-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            ☰
-          </button>
 
-          <h1 className="logo">DataPlay</h1>
+        {/* LEFT */}
+        <div className="nav-left">
+
+          <Link to="/" className="icon-btn">
+            <FaHome size={30} />
+          </Link>
+
+          <h1 className="logo"> 
+              Data
+            <span className={`logo-play ${collegeMode ? "college" : ""}`}>
+              Play
+            </span>
+          </h1>
 
           {isAboutPage ? (
-            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/" className="nav-link"></Link>
           ) : (
-            <Link to="/about" className="nav-link">About Us</Link>
+            <Link to="/about" className="nav-link">
+              About Us
+            </Link>
           )}
+
         </div>
 
+
+        {/* CENTER */}
         <div className="nav-center">
+
           <input
             type="text"
             placeholder="Search teams, players, leagues..."
@@ -114,47 +159,106 @@ export default function Navbar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+
         </div>
 
+
+        {/* RIGHT */}
         <div className="nav-right">
-          <button className="circle-btn" onClick={toggleTheme}>
+
+          {/* COLLEGE TEAMS BUTTON */}
+          <button
+            className={`pill-btn ${collegeMode ? "active" : ""}`} onClick={toggleCollegeMode}>CT</button>
+
+          {/* DARK MODE BUTTON */}
+          <button
+            className="circle-btn"
+            onClick={toggleTheme}
+          >
             {darkMode ? "🌙" : "☀️"}
           </button>
-          <button className="nav-btn">Sign In</button>
+
         </div>
+
       </header>
 
+
+      {/* SEARCH RESULTS */}
       {searchQuery.trim().length >= 3 && (
+
         <div className="search-results">
-          {searching && <div className="search-status">Searching…</div>}
-          {searchError && !searching && (
-            <div className="search-status search-error">{searchError}</div>
+
+          {searching && (
+            <div className="search-status">
+              Searching…
+            </div>
           )}
+
+
+          {searchError && !searching && (
+            <div className="search-status search-error">
+              {searchError}
+            </div>
+          )}
+
+
           {!searching && !searchError && hasResults && (
             <>
+
+              {/* LEAGUES */}
               {searchResults.leagues.length > 0 && (
+
                 <div className="search-group">
-                  <div className="search-group-title">Leagues</div>
+
+                  <div className="search-group-title">
+                    Leagues
+                  </div>
+
                   <ul>
+
                     {searchResults.leagues.map((lg) => (
-                      <li key={lg.idLeague} className="search-item">
+
+                      <li
+                        key={lg.idLeague}
+                        className="search-item"
+                      >
+
                         <Link
                           to={`/league/${lg.idLeague}`}
                           onClick={() => setSearchQuery("")}
                         >
                           {lg.strLeague}
                         </Link>
+
                       </li>
+
                     ))}
+
                   </ul>
+
                 </div>
+
               )}
+
+
+              {/* TEAMS */}
               {searchResults.teams.length > 0 && (
+
                 <div className="search-group">
-                  <div className="search-group-title">Teams</div>
+
+                  <div className="search-group-title">
+                    Teams
+                  </div>
+
                   <ul>
+
                     {searchResults.teams.map((t) => (
-                      <li key={t.idTeam} className="search-item">
+
+                      <li
+                        key={t.idTeam}
+                        className="search-item"
+                      >
+
                         <Link
                           to={`/team/${t.idTeam}`}
                           onClick={() => setSearchQuery("")}
@@ -162,17 +266,36 @@ export default function Navbar() {
                           {t.strTeam}
                           {t.strLeague ? ` · ${t.strLeague}` : ""}
                         </Link>
+
                       </li>
+
                     ))}
+
                   </ul>
+
                 </div>
+
               )}
+
+
+              {/* PLAYERS */}
               {searchResults.players.length > 0 && (
+
                 <div className="search-group">
-                  <div className="search-group-title">Players</div>
+
+                  <div className="search-group-title">
+                    Players
+                  </div>
+
                   <ul>
+
                     {searchResults.players.map((p) => (
-                      <li key={p.idPlayer} className="search-item">
+
+                      <li
+                        key={p.idPlayer}
+                        className="search-item"
+                      >
+
                         <Link
                           to={`/player/${p.idPlayer}`}
                           onClick={() => setSearchQuery("")}
@@ -180,29 +303,86 @@ export default function Navbar() {
                           {p.strPlayer}
                           {p.strTeam ? ` · ${p.strTeam}` : ""}
                         </Link>
+
                       </li>
+
                     ))}
+
                   </ul>
+
                 </div>
+
               )}
+
             </>
           )}
+
+
           {!searching && !searchError && !hasResults && (
-            <div className="search-status">No matches found.</div>
+            <div className="search-status">
+              No matches found.
+            </div>
           )}
+
         </div>
+
       )}
 
-      {menuOpen && (
-        <div className="dropdown-menu">
-          <Link to="/sports/basketball" className="dropdown-link">Basketball</Link>
-          <Link to="/sports/baseball" className="dropdown-link">Baseball</Link>
-          <Link to="/sports/motorsport" className="dropdown-link">Motorsport</Link>
-          <Link to="/sports/soccer" className="dropdown-link">Soccer</Link>
-          <Link to="/sports/fighting" className="dropdown-link">Fighting</Link>
-          <Link to="/sports/more" className="dropdown-link">More</Link>
-        </div>
-      )}
+
+      {/* DROPDOWN NAV */}
+      <div className="dropdown-menu">
+
+        <Link
+          to={collegeMode ? "/basketball/college-teams" : "/basketball"}
+          className="dropdown-link"
+        >
+          Basketball
+        </Link>
+
+        <Link
+          to={collegeMode ? "/baseball/college-teams" : "/baseball"}
+          className="dropdown-link"
+        >
+          Baseball
+        </Link>
+
+        <Link
+          to={collegeMode ? "/icehockey/college-teams" : "/icehockey"}
+          className="dropdown-link"
+        >
+          Ice Hockey
+        </Link>
+
+        <Link
+          to={collegeMode ? "/soccer/college-teams" : "/soccer"}
+          className="dropdown-link"
+        >
+          Soccer
+        </Link>
+
+        <Link
+          to={collegeMode ? "/football/college-teams" : "/football"}
+          className="dropdown-link"
+        >
+          Football
+        </Link>
+
+        <Link
+          to={collegeMode ? "/combat/college-teams" : "/combat"}
+          className="dropdown-link"
+        >
+          Combat
+        </Link>
+
+        <Link
+          to="/more"
+          className="dropdown-link"
+        >
+          More
+        </Link>
+
+      </div>
+
     </>
   );
 }

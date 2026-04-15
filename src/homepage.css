@@ -38,6 +38,17 @@
   font-weight: bold;
 }
 
+/* Default Play color */
+.logo-play {
+  color: #4fb52e;
+  transition: color 0.3s ease;
+}
+
+/* When CT mode is active */
+.logo-play.college {
+  color: #cc0000;
+}
+
 .nav-btn,
 .icon-btn {
   display: flex;
@@ -238,7 +249,14 @@
 }
 
 .sport-card {
-  background: #1c1c1c;
+  background: linear-gradient(
+    to bottom,
+    #66FF00 0%,
+    #4DBF00 15%,
+    #338000 35%,
+    #1A4000 60%,
+    #000000 100%
+  );
   border-radius: 12px;
   padding: 20px;
   border: 1px solid #333;
@@ -252,6 +270,21 @@
 /* Expanded card ignores max-height (handled by .expanded) */
 .sport-card.expanded {
   max-height: none;
+}
+
+/* Hover expand effect */
+.sport-card:hover:not(.expanded) {
+  transform: scale(1.05);
+  border-color: #555;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+/* smoother animation */
+.sport-card {
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .card-header {
@@ -670,7 +703,13 @@ body.light-mode .top-nav {
 }
 
 body.light-mode .sport-card {
-  background: white;
+  background: linear-gradient(
+    to bottom,
+    #4fb52e 0%,
+    #7fe055 25%,
+    #b8ff8a 55%,
+    white 100%
+  );
   border: 1px solid #ddd;
 }
 
@@ -680,14 +719,14 @@ body.light-mode .summary-leader,
 body.light-mode .recent-list.full .recent-item,
 body.light-mode .upcoming-list .upcoming-item,
 body.light-mode .table-wrap {
-  background: #f0f0f0;
+  background: black;
 }
 
 body.light-mode .summary-label,
 body.light-mode .recent-date,
 body.light-mode .recent-meta,
 body.light-mode .upcoming-date {
-  color: #666;
+  color: #555;
 }
 
 body.light-mode .card-error {
@@ -772,7 +811,7 @@ body.light-mode .detail-meta {
 }
 
 body.light-mode .detail-bio {
-  color: #333;
+  color: #7b5b5b;
 }
 
 body.light-mode .icon-btn,
@@ -794,4 +833,118 @@ body.light-mode .dropdown-link {
 
 body.light-mode .dropdown-link::after {
   background-color: #111;
+}
+
+/* smooth color transition for cards */
+.sport-card {
+  transition:
+    background-color 1s ease,
+    border-color 1s ease,
+    color 2s ease,
+    transform 1s ease,
+    box-shadow 1s ease;
+}
+
+/* animate text color */
+.card-title,
+.summary-label,
+.recent-match,
+.recent-date,
+.recent-meta,
+.upcoming-date {
+  transition: color 2s ease;
+}
+
+
+/* CT active state */
+.pill-btn.active {
+  background-color: #2b0000;
+  border-color: #990000;
+  color: white;
+}
+
+.pill-btn.light-mode.active {
+  background-color: #990000;
+  border-color: #cc0000;
+  color: white;
+}
+
+@keyframes cardColorFade {
+  from {
+    filter: brightness(1.15);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+/* RED gradient when College Teams (CT) mode is active 
+body.college-mode .summary-leader,
+body.college-mode .recent-list.full .recent-item,
+body.college-mode .upcoming-list .upcoming-item,
+body.college-mode .table-wrap,
+body.college-mode .live-score,
+body.college-mode .standings, */ 
+body.college-mode .sport-card
+{
+
+  background: linear-gradient(
+    to bottom,
+    #ff4d4d 0%,
+    #cc0000 15%,
+    #990000 35%,
+    #4d0000 65%,
+    #000000 100%
+  );
+
+  border: 1px solid #555;
+}
+.summary-leader,
+.recent-list.full .recent-item,
+.upcoming-list .upcoming-item,
+.table-wrap,
+.live-score,
+.standings,
+.sport-card
+{
+
+  transition:
+    background 3.6s ease,
+    border-color 3.6s ease;
+}
+
+/* LIGHT MODE green gradient */
+body.light-mode .summary-leader,
+body.light-mode .recent-list.full .recent-item,
+body.light-mode .upcoming-list .upcoming-item,
+body.light-mode .table-wrap,
+body.light-mode .live-score,
+body.light-mode .standings {
+
+  background: linear-gradient(
+    to bottom,
+    white 100%
+  );
+
+  border: 1px solid #555;
+}
+
+/* LIGHT MODE red gradient when CT mode is active */
+/*body.light-mode.college-mode .summary-leader,
+body.light-mode.college-mode .recent-list.full .recent-item,
+body.light-mode.college-mode .upcoming-list .upcoming-item,
+body.light-mode.college-mode .table-wrap,
+body.light-mode.college-mode .live-score,
+body.light-mode.college-mode .standings, */
+body.light-mode.college-mode .sport-card{
+
+  background: linear-gradient(
+    to bottom,
+    #cc0000 /*#ffb3b3*/ 0%,
+    #ff6666  30%,
+    #ffb3b3 /*#cc0000*/ 65%,
+    white 100%
+  );
+
+  border: 1px solid #555;
 }

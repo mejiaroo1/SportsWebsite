@@ -28,11 +28,11 @@ export default function AboutUs() {
           </li>
           <li>
             <strong>Back-end/Data handling/API integration:</strong><br />
-            Michael, Oscar
+            Michael Moyo & Oscar Mejia Rodriguez
           </li>
           <li>
             <strong>Project management + version control:</strong><br />
-            Git/GitHub, documentation – Michael, Roydon, Oscar, Advait
+            Git/GitHub, documentation – Michael, Roydon, Oscar & Advait
           </li>
         </ul>
 
@@ -51,7 +51,7 @@ export default function AboutUs() {
             <strong>Advait – Visualization/Analytics Lead:</strong> Charts, comparisons, dashboard metrics, filters and data presentation.
           </li>
           <li>
-            <strong>Michael – Back-End/Integration + Deployment:</strong> API key security/caching (if needed), connects front-end to services, deploys to Netlify/Vercel.
+            <strong>Michael – Back-End/Integration + Deployment:</strong> API key security/caching, connects front-end to services, deploys to Vercel.
           </li>
         </ul>
 

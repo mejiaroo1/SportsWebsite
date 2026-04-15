@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getLeagueRecentEvents, getLeagueUpcomingEvents } from "./api/games.js";
 import Navbar from "./Navbar.jsx";
 import "./homepage.css";
