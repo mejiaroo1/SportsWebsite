@@ -15,6 +15,10 @@ function Basketball() {
     { matchup: "Warriors vs Suns", score: "119 - 113" },
     { matchup: "Bucks vs Heat", score: "105 - 98" },
     { matchup: "Knicks vs Nets", score: "110 - 104" },
+    { matchup: "Celtics vs Lakers", score: "112 - 108" },
+    { matchup: "Warriors vs Suns", score: "119 - 113" },
+    { matchup: "Bucks vs Heat", score: "105 - 98" },
+    { matchup: "Knicks vs Nets", score: "110 - 104" },
   ];
 
   const upcomingGames = [
@@ -55,11 +59,10 @@ function Basketball() {
       const text = `${player.name} ${player.team}`.toLowerCase();
       return text.includes(search.toLowerCase());
     });
-  }, [search]);
+  }, [search, players]);
 
   return (
     <>
-      {/* Navbar included at the top */}
       <Navbar />
 
       <div className="basketball-page">
@@ -73,8 +76,12 @@ function Basketball() {
               </p>
 
               <div className="basketball-hero-buttons">
-                <a href="#standings" className="basketball-btn-primary">View Standings</a>
-                <a href="#players" className="basketball-btn-secondary">Top Players</a>
+                <a href="#standings" className="basketball-btn-primary">
+                  View Standings
+                </a>
+                <a href="#players" className="basketball-btn-secondary">
+                  Top Players
+                </a>
               </div>
             </div>
 
@@ -216,16 +223,12 @@ function Basketball() {
 
                 <div className="highlight-box">
                   <h3>Star Performers</h3>
-                  <p>
-                    The league’s best players are still putting up huge scoring numbers every night.
-                  </p>
+                  <p>The league’s best players are still putting up huge scoring numbers every night.</p>
                 </div>
 
                 <div className="highlight-box">
                   <h3>Playoff Race</h3>
-                  <p>
-                    Teams in the middle of the standings are fighting for position as the season gets tighter.
-                  </p>
+                  <p>Teams in the middle of the standings are fighting for position as the season gets tighter.</p>
                 </div>
               </div>
             </div>

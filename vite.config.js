@@ -18,9 +18,10 @@ export default defineConfig(({ mode }) => {
        */
       proxy: {
         "/api": {
-          target: "http://localhost:3000",
+          target: "https://www.thesportsdb.com",
           changeOrigin: true,
-          secure: false,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/api/, "/api/v2/json"),
           headers: apiKey ? { "X-API-KEY": apiKey } : {},
         },
       },

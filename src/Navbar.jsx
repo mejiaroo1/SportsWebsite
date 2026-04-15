@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { searchLeagues, searchTeams, searchPlayers } from "./api/search.js";
-import { FaHome, FaMoon, FaSun } from "react-icons/fa";
 import "./HomePage.css";
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
@@ -40,7 +40,7 @@ export default function Navbar() {
     setDarkMode(!darkMode);
   };
 
-  // Search logic
+  // Simple debounced search
   useEffect(() => {
     const q = searchQuery.trim();
     if (q.length < 3) {
@@ -90,9 +90,12 @@ export default function Navbar() {
     <>
       <header className="top-nav">
         <div className="nav-left">
-          <Link to="/" className="icon-btn">
-            <FaHome size={30} />
-          </Link>
+          <button 
+            className="icon-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
 
           <h1 className="logo">DataPlay</h1>
 
@@ -113,10 +116,11 @@ export default function Navbar() {
           />
         </div>
 
-        
-        <div className="nav-right"> 
-          <button className="pill-btn">CT</button> 
-          <button className="circle-btn" onClick={toggleTheme}> {darkMode ? "🌙" : "☀️"} </button> 
+        <div className="nav-right">
+          <button className="circle-btn" onClick={toggleTheme}>
+            {darkMode ? "🌙" : "☀️"}
+          </button>
+          <button className="nav-btn">Sign In</button>
         </div>
       </header>
 
@@ -189,15 +193,16 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="dropdown-menu">
-        <Link to="/basketball" className="dropdown-link">Basketball</Link>
-        <Link to="/sports/baseball" className="dropdown-link">Baseball</Link>
-        <Link to="/sports/icehockey" className="dropdown-link">Ice Hockey</Link>
-        <Link to="/sports/soccer" className="dropdown-link">Soccer</Link>
-        <Link to="/sports/football" className="dropdown-link">Football</Link>
-        <Link to="/sports/combat" className="dropdown-link">Combat</Link>
-        <Link to="/sports/more" className="dropdown-link">More</Link>
-      </div>
+      {menuOpen && (
+        <div className="dropdown-menu">
+          <Link to="/sports/basketball" className="dropdown-link">Basketball</Link>
+          <Link to="/sports/baseball" className="dropdown-link">Baseball</Link>
+          <Link to="/sports/motorsport" className="dropdown-link">Motorsport</Link>
+          <Link to="/sports/soccer" className="dropdown-link">Soccer</Link>
+          <Link to="/sports/fighting" className="dropdown-link">Fighting</Link>
+          <Link to="/sports/more" className="dropdown-link">More</Link>
+        </div>
+      )}
     </>
   );
 }

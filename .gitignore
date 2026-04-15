@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Env files (keep secrets out of git)
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# Next.js build output (should never be committed)
+.next/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
