@@ -1,6 +1,5 @@
 import Navbar from "./Navbar";
-import SportCategoryCard from "./SportCategoryCard";
-import "./sports-page.css";
+import { SportCard } from "./homepage";
 
 const SOCCER_LEAGUES = [
   { id: 4328, title: "Premier League", description: "England" },
@@ -13,12 +12,12 @@ const SOCCER_LEAGUES = [
 
 function Soccer() {
   return (
-    <div className="sport-page">
+    <div className="homepage">
       <Navbar />
 
-      <div className="sport-cards-container">
+      <div className="cards-container">
         {SOCCER_LEAGUES.map(l => (
-          <SportCategoryCard key={l.id} {...l} />
+          <SportCard key={l.id} title={l.title} leagueId={l.id} mode="navigate" />
         ))}
       </div>
     </div>

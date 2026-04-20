@@ -4,11 +4,14 @@ import { getLeagueRecentEvents, getLeagueUpcomingEvents } from "./api/games.js";
 import Navbar from "./Navbar.jsx";
 import "./homepage.css";
 
-function SportCard({ title, leagueId, isActive, onClose, ...props }) {
+function SportCard({ title, leagueId, mode = "expand", isActive, onClose, ...props }) {
   const [recentEvents, setRecentEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const isNavigateMode = mode === "navigate";
 
   // Load summary data when card has a league (for collapsed view)
   useEffect(() => {
@@ -76,10 +79,21 @@ function SportCard({ title, leagueId, isActive, onClose, ...props }) {
   return (
     <div
       className={`sport-card ${isActive ? "expanded" : ""}`}
-      onClick={!isActive ? props.onClick : undefined}
+      onClick={
+        isNavigateMode
+          ? () => navigate(`/league/${leagueId}`)
+          : !isActive
+            ? props.onClick
+            : undefined
+      }
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
+        if (isNavigateMode && (e.key === "Enter" || e.key === " ")) {
+          e.preventDefault();
+          navigate(`/league/${leagueId}`);
+          return;
+        }
         if (!isActive && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           props.onClick?.(e);
@@ -89,7 +103,7 @@ function SportCard({ title, leagueId, isActive, onClose, ...props }) {
     >
       <div className="card-header">
         <h2 className="card-title">{title}</h2>
-        {isActive && onClose && (
+        {!isNavigateMode && isActive && onClose && (
           <button
             type="button"
             className="close-btn"
@@ -147,7 +161,7 @@ function SportCard({ title, leagueId, isActive, onClose, ...props }) {
           </div>
 
           {/* Expanded: recent + upcoming (v2 does not provide standings tables) */}
-          {isActive && (
+          {!isNavigateMode && isActive && (
             <div className="stats-section expanded-details">
               {recentEvents.length > 0 && (
                 <section className="stats-block">

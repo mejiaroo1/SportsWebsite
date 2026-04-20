@@ -1,6 +1,5 @@
 import Navbar from "./Navbar";
-import SportCategoryCard from "./SportCategoryCard";
-import "./sports-page.css";
+import { SportCard } from "./homepage";
 
 const BASEBALL_LEAGUES = [
   { id: 4424, title: "MLB", description: "Major League Baseball" },
@@ -14,12 +13,12 @@ const BASEBALL_LEAGUES = [
 
 function Baseball() {
   return (
-    <div className="sport-page">
+    <div className="homepage">
       <Navbar />
 
-      <div className="sport-cards-container">
+      <div className="cards-container">
         {BASEBALL_LEAGUES.map(l => (
-          <SportCategoryCard key={l.id} {...l} />
+          <SportCard key={l.id} title={l.title} leagueId={l.id} mode="navigate" />
         ))}
       </div>
     </div>

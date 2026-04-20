@@ -1,25 +1,24 @@
 import Navbar from "./Navbar";
-import SportCategoryCard from "./SportCategoryCard";
-import "./sports-page.css";
+import { SportCard } from "./homepage";
 
 const COMBAT_LEAGUES = [
     /* All id's are incorrect */
-  { id: 4378, title: "UFC", description: "Mixed Martial Arts" },
-  { id: 4399, title: "Bellator", description: "MMA promotion" },
-  { id: 4400, title: "ONE Championship", description: "Asia-based MMA promotion" },
+  { id: 4443, title: "UFC", description: "Mixed Martial Arts" },
+  { id: 4467, title: "Bellator", description: "MMA promotion" },
+  { id: 4495, title: "ONE Championship", description: "Asia-based MMA promotion" },
   { id: 4445, title: "Boxing", description: "Boxing" },
-  { id: 4446, title: "Kickboxing", description: "Kickboxing" },
-  { id: 4447, title: "Wrestling", description: "Professional wrestling" }  
+  { id: 4605, title: "Kickboxing", description: "Kickboxing" },
+  { id: 4726, title: "Wrestling", description: "Professional wrestling" }  
 ];
 
 function Combat() {
   return (
-    <div className="sport-page">
+    <div className="homepage">
       <Navbar />
 
-      <div className="sport-cards-container">
+      <div className="cards-container">
         {COMBAT_LEAGUES.map(l => (
-          <SportCategoryCard key={l.id} {...l} />
+          <SportCard key={l.id} title={l.title} leagueId={l.id} mode="navigate" />
         ))}
       </div>
     </div>
