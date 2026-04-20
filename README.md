@@ -1,4 +1,4 @@
-# SportsWebsite
+# DataPlay
 
 ## League card image generation (Gemini)
 
