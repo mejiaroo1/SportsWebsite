@@ -45,14 +45,26 @@ export default function Navbar() {
 
   /* ---------------- COLLEGE MODE ---------------- */
 
-  const toggleCollegeMode = () => {
-    if (!collegeMode) {
+  useEffect(() => {
+    const saved = localStorage.getItem("collegeMode");
+    const enabled = saved === "true";
+    setCollegeMode(enabled);
+    if (enabled) {
       document.body.classList.add("college-mode");
     } else {
       document.body.classList.remove("college-mode");
     }
+  }, []);
 
-    setCollegeMode(!collegeMode);
+  const toggleCollegeMode = () => {
+    const next = !collegeMode;
+    if (next) document.body.classList.add("college-mode");
+    else document.body.classList.remove("college-mode");
+    localStorage.setItem("collegeMode", String(next));
+    setCollegeMode(next);
+    window.dispatchEvent(
+      new CustomEvent("college-mode-change", { detail: { enabled: next } })
+    );
   };
 
   /* ---------------- SEARCH ---------------- */

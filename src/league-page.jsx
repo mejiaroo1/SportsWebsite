@@ -37,15 +37,50 @@ function LeaguePage() {
 
         setLeague(leagueArray[0] || null);
 
+        const parseMatchupFromEventName = (name) => {
+          if (!name || typeof name !== "string") return { home: "", away: "" };
+          const vs =
+            name.includes(" vs ")
+              ? " vs "
+              : name.includes(" v ")
+                ? " v "
+                : name.includes(" @ ")
+                  ? " @ "
+                  : null;
+          if (!vs) return { home: name, away: "" };
+          const [a, b] = name.split(vs);
+          if (vs === " @ ") return { away: (a || "").trim(), home: (b || "").trim() };
+          return { home: (a || "").trim(), away: (b || "").trim() };
+        };
+
+        const getMatchup = (ev) => {
+          const home = ev?.strHomeTeam?.trim?.() || "";
+          const away = ev?.strAwayTeam?.trim?.() || "";
+          if (home || away) return `${home} vs ${away}`.trim();
+          const name = ev?.strEvent ?? ev?.strEventAlternate ?? "";
+          const parsed = parseMatchupFromEventName(name);
+          if (parsed.home && parsed.away) return `${parsed.home} vs ${parsed.away}`;
+          return name || "Event";
+        };
+
+        const getScore = (ev) => {
+          const hs = ev?.intHomeScore;
+          const as = ev?.intAwayScore;
+          if (hs !== null && hs !== undefined && as !== null && as !== undefined) {
+            return `${hs} - ${as}`;
+          }
+          return ev?.strResult ?? ev?.strStatus ?? "";
+        };
+
         // Transform recent games
         const recentFormatted = (recentData.events || []).map((ev) => ({
-          matchup: `${ev.strHomeTeam} vs ${ev.strAwayTeam}`,
-          score: `${ev.intHomeScore} - ${ev.intAwayScore}`,
+          matchup: getMatchup(ev),
+          score: getScore(ev),
         }));
 
         // Transform upcoming games
         const upcomingFormatted = (upcomingData.events || []).map((ev) => ({
-          matchup: `${ev.strHomeTeam} vs ${ev.strAwayTeam}`,
+          matchup: getMatchup(ev),
           date: ev.dateEvent,
           time: ev.strTime?.slice(0, 5) || "",
           arena: ev.strVenue || "TBD",
@@ -74,7 +109,7 @@ function LeaguePage() {
     if (recentResults.length === 0) return null;
 
     const first = recentResults[0];
-    const [awayScore, homeScore] = first.score.split("-");
+    const [awayScore, homeScore] = String(first.score || "").split("-");
 
     return {
       status: "Final",
