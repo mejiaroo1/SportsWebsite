@@ -137,7 +137,8 @@
   border: 1px solid #333;
   padding: 12px 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-  z-index: 900;
+  /* Must stay above expanded cards (z-index: 1000) */
+  z-index: 2001;
 }
 
 .search-group {
@@ -172,6 +173,8 @@
 .search-item a {
   color: #eee;
   text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
 .search-item a:hover {

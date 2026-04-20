@@ -198,7 +198,11 @@ export default function Navbar() {
       {/* SEARCH RESULTS */}
       {searchQuery.trim().length >= 3 && (
 
-        <div className="search-results">
+        <div
+          className="search-results"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
 
           {searching && (
             <div className="search-status">
@@ -237,7 +241,11 @@ export default function Navbar() {
 
                         <Link
                           to={`/league/${lg.idLeague}`}
-                          onClick={() => setSearchQuery("")}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSearchQuery("");
+                          }}
                         >
                           {lg.strLeague}
                         </Link>
@@ -273,7 +281,11 @@ export default function Navbar() {
 
                         <Link
                           to={`/team/${t.idTeam}`}
-                          onClick={() => setSearchQuery("")}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSearchQuery("");
+                          }}
                         >
                           {t.strTeam}
                           {t.strLeague ? ` · ${t.strLeague}` : ""}
@@ -310,7 +322,11 @@ export default function Navbar() {
 
                         <Link
                           to={`/player/${p.idPlayer}`}
-                          onClick={() => setSearchQuery("")}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSearchQuery("");
+                          }}
                         >
                           {p.strPlayer}
                           {p.strTeam ? ` · ${p.strTeam}` : ""}
