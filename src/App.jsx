@@ -11,6 +11,7 @@ import Football from "./football";
 import Baseball from "./baseball";
 import Hockey from "./hockey";
 import Combat from "./combat";
+import More from "./more";
 import LeaguePage from "./league-page.jsx";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/baseball" element={<Baseball />} />
         <Route path="/icehockey" element={<Hockey />} />
         <Route path="/combat" element={<Combat />} />
+        <Route path="/more" element={<More />} />
         <Route path="/league/:id" element={<LeaguePage />} />
       </Routes>
     </Router>
