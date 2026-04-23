@@ -12,6 +12,7 @@ function SportCard({ title, leagueId, mode = "expand", isActive, onClose, ...pro
   const navigate = useNavigate();
 
   const isNavigateMode = mode === "navigate";
+  const backgroundImageId = props.backgroundImageId ?? leagueId;
 
   // Load summary data when card has a league (for collapsed view)
   useEffect(() => {
@@ -185,7 +186,7 @@ function SportCard({ title, leagueId, mode = "expand", isActive, onClose, ...pro
       <div className="league-card-bg" aria-hidden="true">
         <img
           className="league-card-bg-image"
-          src={`/league-images/${leagueId}.png`}
+          src={`/league-images/${backgroundImageId}.png`}
           alt=""
           loading="lazy"
           onError={(e) => {
@@ -319,12 +320,21 @@ const DEFAULT_LEAGUES = [
 // "CT mode" featured leagues (college / developmental / feeder leagues)
 const COLLEGE_LEAGUES = [
   { id: 5279, title: "MLS Next Pro", sport: "Soccer" },
-  { id: 4388, title: "NBA G League", sport: "Basketball" },
-  { id: 5346, title: "NCAA D1 Ice Hockey", sport: "Ice Hockey" },
-  { id: 4479, title: "NCAA Division 1", sport: "Football" },
+  { id: 4607, title: "NCAA Division 1 Basketball", sport: "Basketball" },
+  { id: 5346, title: "NCAA Division 1 Ice Hockey", sport: "Ice Hockey" },
+  { id: 4479, title: "NCAA Division 1 Football", sport: "Football" },
   { id: 5085, title: "Triple-A East", sport: "Baseball" },
   { id: 4883, title: "NCAA Wrestling", sport: "Combat" },
 ];
+
+const SPORT_BACKGROUND_IMAGE_IDS = {
+  Soccer: 4328,
+  Basketball: 4387,
+  "Ice Hockey": 4380,
+  Football: 4391,
+  Baseball: 4424,
+  Combat: 4443,
+};
 
 function HomePage() {
   const [activeId, setActiveId] = useState(null);
@@ -345,14 +355,15 @@ function HomePage() {
 
   const leagues = collegeMode ? COLLEGE_LEAGUES : DEFAULT_LEAGUES;
   return (
-    <div className="homepage">
+    <div className={`homepage ${collegeMode ? "college-mode" : ""}`}>
       <Navbar />
       <div className="cards-container">
-        {leagues.map(({ id, title }) => (
+        {leagues.map(({ id, title, sport }) => (
           <SportCard
             key={id}
             title={title}
             leagueId={id}
+            backgroundImageId={SPORT_BACKGROUND_IMAGE_IDS[sport] ?? id}
             isActive={activeId === id}
             onClick={() => setActiveId(id)}
             onClose={() => setActiveId(null)}

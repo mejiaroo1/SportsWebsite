@@ -180,7 +180,11 @@ export default function Navbar() {
 
           {/* COLLEGE TEAMS BUTTON */}
           <button
-            className={`pill-btn ${collegeMode ? "active" : ""}`} onClick={toggleCollegeMode}>CT</button>
+            className={`pill-btn ${collegeMode ? "active" : ""} ${!darkMode ? "light-mode" : ""}`}
+            onClick={toggleCollegeMode}
+          >
+            CT
+          </button>
 
           {/* DARK MODE BUTTON */}
           <button
@@ -361,42 +365,42 @@ export default function Navbar() {
       <div className="dropdown-menu">
 
         <Link
-          to={collegeMode ? "/basketball/college-teams" : "/basketball"}
+          to={collegeMode ? "/league/4607" : "/basketball"}
           className="dropdown-link"
         >
           Basketball
         </Link>
 
         <Link
-          to={collegeMode ? "/baseball/college-teams" : "/baseball"}
+          to={collegeMode ? "/league/5085" : "/baseball"}
           className="dropdown-link"
         >
           Baseball
         </Link>
 
         <Link
-          to={collegeMode ? "/icehockey/college-teams" : "/icehockey"}
+          to={collegeMode ? "/league/5346" : "/icehockey"}
           className="dropdown-link"
         >
           Ice Hockey
         </Link>
 
         <Link
-          to={collegeMode ? "/soccer/college-teams" : "/soccer"}
+          to={collegeMode ? "/league/5279" : "/soccer"}
           className="dropdown-link"
         >
           Soccer
         </Link>
 
         <Link
-          to={collegeMode ? "/football/college-teams" : "/football"}
+          to={collegeMode ? "/league/4479" : "/football"}
           className="dropdown-link"
         >
           Football
         </Link>
 
         <Link
-          to={collegeMode ? "/combat/college-teams" : "/combat"}
+          to={collegeMode ? "/league/4883" : "/combat"}
           className="dropdown-link"
         >
           Combat

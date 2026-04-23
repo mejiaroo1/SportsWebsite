@@ -445,7 +445,14 @@ body.light-mode .league-card-bg-overlay {
 
 .dropdown-menu {
   width: 100%;
-  background-color: #1a1a1a;
+  background: linear-gradient(
+    to bottom,
+    #66FF00 0%,
+    #4DBF00 15%,
+    #338000 35%,
+    #1A4000 60%,
+    #000000 100%
+  );
   border-bottom: 1px solid #333;
   display: flex;
   justify-content: center;
@@ -883,8 +890,35 @@ body.light-mode .nav-btn {
 }
 
 body.light-mode .dropdown-menu {
-  background-color: white;
+  background: linear-gradient(
+    to bottom,
+    #4fb52e 0%,
+    #7fe055 25%,
+    #b8ff8a 55%,
+    white 100%
+  );
   border-bottom: 1px solid #ddd;
+}
+
+body.college-mode .dropdown-menu {
+  background: linear-gradient(
+    to bottom,
+    #ff4d4d 0%,
+    #cc0000 15%,
+    #990000 35%,
+    #4d0000 65%,
+    #000000 100%
+  );
+}
+
+body.light-mode.college-mode .dropdown-menu {
+  background: linear-gradient(
+    to bottom,
+    #cc0000 0%,
+    #ff6666 30%,
+    #ffb3b3 65%,
+    white 100%
+  );
 }
 
 body.light-mode .dropdown-link {
@@ -918,15 +952,34 @@ body.light-mode .dropdown-link::after {
 
 /* CT active state */
 .pill-btn.active {
-  background-color: #2b0000;
-  border-color: #990000;
+  background: linear-gradient(
+    to bottom,
+    #ff4d4d 0%,
+    #cc0000 15%,
+    #990000 35%,
+    #4d0000 65%,
+    #000000 100%
+  );
+  border-color: #4d0000;
   color: white;
 }
 
 .pill-btn.light-mode.active {
-  background-color: #990000;
+  background: linear-gradient(
+    to bottom,
+    #cc0000 0%,
+    #ff6666 30%,
+    #ffb3b3 65%,
+    white 100%
+  );
   border-color: #cc0000;
-  color: white;
+  color: #111;
+}
+
+.pill-btn.light-mode {
+  background: white;
+  border-color: #ccc;
+  color: #111;
 }
 
 @keyframes cardColorFade {
@@ -938,14 +991,7 @@ body.light-mode .dropdown-link::after {
   }
 }
 
-/* RED gradient when College Teams (CT) mode is active 
-body.college-mode .summary-leader,
-body.college-mode .recent-list.full .recent-item,
-body.college-mode .upcoming-list .upcoming-item,
-body.college-mode .table-wrap,
-body.college-mode .live-score,
-body.college-mode .standings, */ 
-body.college-mode .sport-card
+.homepage.college-mode .sport-card
 {
 
   background: linear-gradient(
@@ -989,20 +1035,13 @@ body.light-mode .standings {
   border: 1px solid #555;
 }
 
-/* LIGHT MODE red gradient when CT mode is active */
-/*body.light-mode.college-mode .summary-leader,
-body.light-mode.college-mode .recent-list.full .recent-item,
-body.light-mode.college-mode .upcoming-list .upcoming-item,
-body.light-mode.college-mode .table-wrap,
-body.light-mode.college-mode .live-score,
-body.light-mode.college-mode .standings, */
-body.light-mode.college-mode .sport-card{
+body.light-mode .homepage.college-mode .sport-card{
 
   background: linear-gradient(
     to bottom,
-    #cc0000 /*#ffb3b3*/ 0%,
+    #cc0000  0%,
     #ff6666  30%,
-    #ffb3b3 /*#cc0000*/ 65%,
+    #ffb3b3  65%,
     white 100%
   );
 

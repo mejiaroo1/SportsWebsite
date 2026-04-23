@@ -13,13 +13,20 @@ const HOCKEY_LEAGUES = [
 ];
 
 function Hockey() {
+  const sportBackgroundImageId = 4380;
   return (
     <div className="homepage">
       <Navbar />
 
       <div className="cards-container">
         {HOCKEY_LEAGUES.map(l => (
-          <SportCard key={l.id} title={l.title} leagueId={l.id} mode="navigate" />
+          <SportCard
+            key={l.id}
+            title={l.title}
+            leagueId={l.id}
+            mode="navigate"
+            backgroundImageId={sportBackgroundImageId}
+          />
         ))}
       </div>
     </div>

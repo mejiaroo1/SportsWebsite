@@ -50,6 +50,23 @@
   );
 }
 
+/* Specific CT dropdown leagues: use red -> black in dark mode */
+.league-page.league-page-red-light .league-hero-left,
+.league-page.league-page-red-light .league-hero-right,
+.league-page.league-page-red-light .league-panel,
+.league-page.league-page-red-light .leader-card,
+.league-page.league-page-red-light .highlight-box,
+.league-page.league-page-red-light .player-card {
+  background: linear-gradient(
+    to bottom,
+    #ff4d4d 0%,
+    #cc0000 15%,
+    #990000 35%,
+    #4d0000 65%,
+    #000000 100%
+  );
+}
+
 .league-small-title {
   color: white;
   font-size: 12px;
@@ -403,6 +420,22 @@ body.light-mode .player-card {
     background-color 0.25s ease;
 }
 
+/* Specific CT dropdown leagues: use red -> white in light mode */
+body.light-mode .league-page.league-page-red-light .league-hero-left,
+body.light-mode .league-page.league-page-red-light .league-hero-right,
+body.light-mode .league-page.league-page-red-light .league-panel,
+body.light-mode .league-page.league-page-red-light .leader-card,
+body.light-mode .league-page.league-page-red-light .highlight-box,
+body.light-mode .league-page.league-page-red-light .player-card {
+  background: linear-gradient(
+    to bottom,
+    #cc0000 0%,
+    #ff6666 30%,
+    #ffb3b3 65%,
+    white 100%
+  );
+}
+
 body.light-mode .league-small-title,
 body.light-mode .featured-label {
   color: #555;
@@ -482,6 +515,10 @@ body.light-mode a {
 .player-card span,
 .standings-table th,
 .standings-table td,
-.league-panel{
+.league-panel,
+.list-row,
+.featured-team-block,
+.featured-vs,
+.featured-note {
   transition: color 2s ease;
 }

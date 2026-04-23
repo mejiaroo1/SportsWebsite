@@ -8,6 +8,15 @@ import { fetchFromSportsDB } from "./lib/apiClient.js";
 
 function LeaguePage() {
   const { id } = useParams();
+  const RED_LIGHT_THEME_LEAGUE_IDS = new Set([
+    "4607",
+    "5085",
+    "5346",
+    "5279",
+    "4479",
+    "4883",
+  ]);
+  const useRedLightTheme = RED_LIGHT_THEME_LEAGUE_IDS.has(String(id));
 
   const [league, setLeague] = useState(null);
   const [recentResults, setRecentResults] = useState([]);
@@ -131,7 +140,7 @@ function LeaguePage() {
     <>
       <Navbar />
 
-      <div className="league-page">
+      <div className={`league-page ${useRedLightTheme ? "league-page-red-light" : ""}`}>
         <div className="league-container">
 
           {/* HERO */}
@@ -198,7 +207,7 @@ function LeaguePage() {
             </div>
           </section>
 
-          {/* PLAYERS (placeholder for now) */}
+          {/* PLAYERS (placeholder for now)
           <section className="league-bottom-grid">
             <div className="league-panel">
               <h2>Players</h2>
@@ -216,6 +225,7 @@ function LeaguePage() {
               ))}
             </div>
           </section>
+          */}
 
         </div>
       </div>
