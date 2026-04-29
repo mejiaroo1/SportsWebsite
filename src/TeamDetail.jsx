@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useState, useCallback, useRef } from "react"
 import { Link, useParams } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import { fetchFromSportsDB } from "./lib/apiClient.js";
+import { searchPlayers } from "./api/search.js";
 import {
   getTeamRecentEvents,
   getTeamUpcomingEvents,
 } from "./api/games.js";
 import {
   buildDisplayRoster,
+  playerBelongsToTeam,
 } from "./data/teamRosterFill.js";
 import { normalizeTeamKey } from "./data/normalizeTeamKey.js";
 import "./league-page.css";
@@ -140,7 +142,8 @@ function TeamDetail() {
         if (cancelled) return;
         const teamArray =
           teamData?.lookup || teamData?.teams || teamData?.search || [];
-        setTeam(teamArray[0] || null);
+        const teamRow = teamArray[0] || null;
+        setTeam(teamRow);
         setRecent(recentData.events || []);
         setUpcoming(upcomingData.events || []);
         const plist =
@@ -148,7 +151,15 @@ function TeamDetail() {
           playersData?.lookup ||
           playersData?.search ||
           [];
-        setRosterPlayers(Array.isArray(plist) ? plist : []);
+        const primaryRoster = Array.isArray(plist) ? plist : [];
+        if (primaryRoster.length > 0 || !teamRow?.strTeam) {
+          setRosterPlayers(primaryRoster);
+        } else {
+          const searched = await searchPlayers(teamRow.strTeam).catch(() => []);
+          if (cancelled) return;
+          const matched = searched.filter((p) => playerBelongsToTeam(p, teamRow));
+          setRosterPlayers(matched);
+        }
       } catch (e) {
         if (cancelled) return;
         setError(e.message || "Failed to load team");
@@ -307,16 +318,28 @@ function TeamDetail() {
   }, [sortedRoster, team]);
 
   const teamCheckedRoster = useMemo(() => {
+    const fillNames = sortedRoster
+      .filter((p) => Boolean(p.isRosterFill || !p.idPlayer))
+      .map((p) => String(p?.strPlayer || "").trim())
+      .filter(Boolean);
+
+    const hasAnyResolvedFill = fillNames.some(
+      (name) => Boolean(verifiedFillRowsByName[name])
+    );
+
     return sortedRoster.flatMap((p) => {
       const isFill = Boolean(p.isRosterFill || !p.idPlayer);
       if (!isFill) return [p];
       const key = String(p?.strPlayer || "").trim();
       if (!key) return [p];
       const resolved = verifiedFillRowsByName[key];
-      // Keep names visible; swap in verified data when available.
-      return resolved ? [resolved] : [p];
+      if (resolved) return [resolved];
+      // While checking, keep list stable. After check, drop unverified fallback names.
+      if (verifyingFillRows) return [p];
+      // If nothing resolved at all for this team, keep curated/fallback names visible.
+      return hasAnyResolvedFill ? [] : [p];
     });
-  }, [sortedRoster, verifiedFillRowsByName]);
+  }, [sortedRoster, verifiedFillRowsByName, verifyingFillRows]);
 
   const filteredRoster = useMemo(() => {
     const term = rosterFilter.trim().toLowerCase();

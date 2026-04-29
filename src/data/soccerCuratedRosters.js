@@ -132,6 +132,7 @@ const MLS_BY_TEAM = {
   "fc dallas": ["Jesús Ferreira", "Alan Velasco", "Paul Arriola", "Maarten Paes", "Nkosi Tafari", "Asier Illarramendi", "Bernard Kamungo", "Sebastien Ibeagha"],
   "houston dynamo fc": ["Héctor Herrera", "Amine Bassi", "Coco Carrasquilla", "Steve Clark", "Griffin Dorsey", "Artur", "Ibrahim Aliyu", "Micael"],
   "inter miami cf": ["Lionel Messi", "Luis Suárez", "Sergio Busquets", "Jordi Alba", "Drake Callender", "Diego Gómez", "Robert Taylor", "Federico Redondo"],
+  "inter miami": ["Lionel Messi", "Luis Suárez", "Sergio Busquets", "Jordi Alba", "Drake Callender", "Diego Gómez", "Robert Taylor", "Federico Redondo"],
   "la galaxy": ["Riqui Puig", "Joseph Paintsil", "Dejan Joveljić", "Maya Yoshida", "John McCarthy", "Mark Delgado", "Gabriel Pec", "Jalen Neal"],
   "los angeles football club": ["Denis Bouanga", "Carlos Vela", "Mateusz Bogusz", "Ilie Sánchez", "Hugo Lloris", "Timothy Tillman", "Ryan Hollingshead", "Jesús Murillo"],
   "minnesota united fc": ["Emanuel Reynoso", "Bongokuhle Hlongwane", "Robin Lod", "Dayne St. Clair", "Michael Boxall", "Tani Oluwaseyi", "Wil Trapp", "Kervin Arriaga"],
