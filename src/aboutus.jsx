@@ -68,6 +68,11 @@ export default function AboutUs() {
           </a>
         </p>
 
+        <h2>Unofficial Website Warning</h2>
+        <p>
+          This website is specifically made for educational purposes and is not affiliated, endorsed, or sponsored by any official sports organization.
+          All data, logos, names, and descriptions are from the Sports Data API.
+        </p>
       </main>
     </div>
   );

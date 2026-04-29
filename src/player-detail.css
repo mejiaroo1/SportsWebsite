@@ -1,0 +1,197 @@
+/* Player detail — mirrors league / team hero + about panel */
+
+.player-detail-page .player-hero-left.player-hero-left {
+  position: relative;
+  overflow: hidden;
+}
+
+.player-detail-page .player-hero-left.player-hero-left > *:not(.player-hero-cutout-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.player-detail-page .player-hero-cutout-watermark {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(42%, 240px);
+  max-height: 92%;
+  object-fit: contain;
+  object-position: center right;
+  opacity: 0.28;
+  filter: saturate(1.05) contrast(1.05);
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.player-detail-page .player-hero-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  max-width: 520px;
+}
+
+.player-detail-page .player-hero-identity-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px 20px;
+  align-items: baseline;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.player-detail-page .player-hero-identity-label {
+  color: #9a9a9a;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.player-detail-page .player-hero-identity-value {
+  color: #f0f0f0;
+  font-weight: 500;
+}
+
+.player-detail-page .player-hero-identity-value a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.player-detail-page .player-hero-identity-value a:hover {
+  color: #e8e8e8;
+}
+
+.player-detail-page .player-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.player-detail-page .player-hero-profile .featured-label {
+  margin-bottom: 14px;
+}
+
+.player-detail-page .player-profile-dl {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.player-detail-page .player-profile-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 38%) 1fr;
+  gap: 10px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  align-items: baseline;
+}
+
+.player-detail-page .player-profile-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.player-detail-page .player-profile-row dt {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #9a9a9a;
+}
+
+.player-detail-page .player-profile-row dd {
+  margin: 0;
+  font-size: 1rem;
+  color: #f0f0f0;
+  font-weight: 500;
+}
+
+.player-detail-page .player-profile-row dd a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.player-detail-page .player-profile-row dd a:hover {
+  color: #e8e8e8;
+}
+
+.player-detail-page .player-detail-state {
+  padding: 20px 22px;
+}
+
+.player-detail-page .league-panel > h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 14px 0;
+  color: #ffffff;
+}
+
+.player-detail-page .player-detail-about-section {
+  margin-bottom: 20px;
+}
+
+.player-detail-page .player-detail-about-body {
+  color: #c8c8c8;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.player-detail-page .player-detail-about-empty {
+  margin: 0;
+  color: #9b9b9b;
+  font-size: 0.95rem;
+}
+
+body.light-mode .player-detail-page .player-hero-cutout-watermark {
+  opacity: 0.2;
+}
+
+body.light-mode .player-detail-page .player-hero-identity-label,
+body.light-mode .player-detail-page .player-profile-row dt {
+  color: #666;
+}
+
+body.light-mode .player-detail-page .player-hero-identity-value,
+body.light-mode .player-detail-page .player-profile-row dd {
+  color: #1a1a1a;
+}
+
+body.light-mode .player-detail-page .player-hero-identity-value a,
+body.light-mode .player-detail-page .player-profile-row dd a {
+  color: #111;
+}
+
+body.light-mode .player-detail-page .player-profile-row {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .player-detail-page .player-detail-about-body {
+  color: #444;
+}
+
+body.light-mode .player-detail-page .player-detail-about-empty {
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .player-detail-page .player-hero-identity-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .player-detail-page .player-profile-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

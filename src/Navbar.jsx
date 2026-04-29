@@ -4,6 +4,11 @@ import { searchLeagues, searchTeams, searchPlayers } from "./api/search.js";
 import { FaHome } from "react-icons/fa";
 import "./HomePage.css";
 
+const MIN_QUERY_LENGTH = 2;
+const MAX_LEAGUE_RESULTS = 40;
+const MAX_TEAM_RESULTS = 100;
+const MAX_PLAYER_RESULTS = 3000;
+
 export default function Navbar() {
   const [darkMode, setDarkMode] = useState(true);
   const [collegeMode, setCollegeMode] = useState(false);
@@ -72,7 +77,7 @@ export default function Navbar() {
   useEffect(() => {
     const q = searchQuery.trim();
 
-    if (q.length < 3) {
+    if (q.length < MIN_QUERY_LENGTH) {
       setSearchResults({
         teams: [],
         players: [],
@@ -99,9 +104,9 @@ export default function Navbar() {
         if (cancelled) return;
 
         setSearchResults({
-          teams: teams?.slice(0, 5) || [],
-          players: players?.slice(0, 5) || [],
-          leagues: leagues?.slice(0, 5) || [],
+          teams: teams?.slice(0, MAX_TEAM_RESULTS) || [],
+          players: players?.slice(0, MAX_PLAYER_RESULTS) || [],
+          leagues: leagues?.slice(0, MAX_LEAGUE_RESULTS) || [],
         });
       } catch (err) {
         if (cancelled) return;
@@ -200,7 +205,7 @@ export default function Navbar() {
 
 
       {/* SEARCH RESULTS */}
-      {searchQuery.trim().length >= 3 && (
+      {searchQuery.trim().length >= MIN_QUERY_LENGTH && (
 
         <div
           className="search-results"

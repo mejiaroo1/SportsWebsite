@@ -1,13 +1,57 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./league-page.css";
 
 import { getLeagueRecentEvents, getLeagueUpcomingEvents } from "./api/games.js";
+import { searchPlayers } from "./api/search.js";
 import { fetchFromSportsDB } from "./lib/apiClient.js";
+import { getFallbackTeamNames, FALLBACK_USES_PLAYER_SEARCH } from "./data/leagueFallbackTeams.js";
+
+/** Combat / individual-sport leagues: no team roster in TheSportsDB sense */
+const COMBAT_LEAGUE_IDS = new Set([
+  "4443", // UFC
+  "4495", // ONE Championship
+  "4445", // Boxing
+  "4605", // Kickboxing
+  "4726", // Wrestling (pro)
+  "4883", // NCAA Wrestling (homepage CT)
+]);
+
+function isCombatSportLeague(leagueRow, leagueIdParam) {
+  const lid = String(leagueIdParam ?? "");
+  if (COMBAT_LEAGUE_IDS.has(lid)) return true;
+
+  const sport = (leagueRow?.strSport || "").toLowerCase();
+  const leagueName = (leagueRow?.strLeague || "").toLowerCase();
+
+  const sportHints = [
+    "fighting",
+    "mma",
+    "mixed martial",
+    "wrestling",
+    "boxing",
+    "combat",
+    "kickboxing",
+    "martial",
+    "muay thai",
+  ];
+  if (sportHints.some((h) => sport.includes(h))) return true;
+
+  // Bellator shares an id with CPBL in this app; treat as combat only when league name matches
+  if (
+    lid === "4467" &&
+    (leagueName.includes("bellator") || sport.includes("fight") || sport.includes("mma"))
+  ) {
+    return true;
+  }
+
+  return false;
+}
 
 function LeaguePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const RED_LIGHT_THEME_LEAGUE_IDS = new Set([
     "4607",
     "5085",
@@ -21,11 +65,13 @@ function LeaguePage() {
   const [league, setLeague] = useState(null);
   const [recentResults, setRecentResults] = useState([]);
   const [upcomingGames, setUpcomingGames] = useState([]);
-  const [players, setPlayers] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [standings, setStandings] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [resolvingTeamName, setResolvingTeamName] = useState("");
+  const [teamLookupError, setTeamLookupError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -44,7 +90,8 @@ function LeaguePage() {
         const leagueArray =
           leagueData?.lookup || leagueData?.leagues || [];
 
-        setLeague(leagueArray[0] || null);
+        const leagueRow = leagueArray[0] || null;
+        setLeague(leagueRow);
 
         const parseMatchupFromEventName = (name) => {
           if (!name || typeof name !== "string") return { home: "", away: "" };
@@ -98,8 +145,39 @@ function LeaguePage() {
         setRecentResults(recentFormatted);
         setUpcomingGames(upcomingFormatted);
 
-        //plug real endpoints here:
-        setPlayers([]);
+        const loadLeagueTeams = async () => {
+          const requestAttempts = [
+            () => fetchFromSportsDB(`/lookup/all_teams_league/${id}`),
+            () => fetchFromSportsDB(`/lookup/all_teams/${id}`),
+            () =>
+              leagueRow?.strLeague
+                ? fetchFromSportsDB(
+                    `/search/all_teams/${encodeURIComponent(leagueRow.strLeague)}`
+                  )
+                : Promise.resolve({}),
+          ];
+
+          for (const attempt of requestAttempts) {
+            try {
+              const data = await attempt();
+              const teamArray = data?.teams || data?.lookup || data?.search || [];
+              if (Array.isArray(teamArray) && teamArray.length > 0) {
+                setTeams(teamArray);
+                return;
+              }
+            } catch {
+              // Try next endpoint shape.
+            }
+          }
+
+          setTeams([]);
+        };
+
+        if (!isCombatSportLeague(leagueRow, id)) {
+          await loadLeagueTeams();
+        } else {
+          setTeams([]);
+        }
         setStandings([]);
 
       } catch (err) {
@@ -128,11 +206,68 @@ function LeaguePage() {
     };
   }, [recentResults]);
 
-  const filteredPlayers = useMemo(() => {
-    return players.filter((p) =>
-      `${p.name} ${p.team}`.toLowerCase().includes(search.toLowerCase())
+  const allTeams = useMemo(() => {
+    const sourceTeams =
+      teams.length > 0
+        ? teams
+        : (getFallbackTeamNames(id, league?.strLeague) || []).map((name) => ({
+            idTeam: `fallback-${name}`,
+            strTeam: name,
+            strLeague: league?.strLeague || "",
+            isFallback: true,
+          }));
+    return [...sourceTeams].sort((a, b) =>
+      String(a?.strTeam || "").localeCompare(String(b?.strTeam || ""))
     );
-  }, [players, search]);
+  }, [teams, id, league]);
+
+  const filteredTeams = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return allTeams;
+    return allTeams.filter((team) =>
+      `${team?.strTeam ?? ""} ${team?.strLeague ?? ""}`.toLowerCase().includes(term)
+    );
+  }, [allTeams, search]);
+
+  const showTeamsSection = useMemo(() => {
+    if (league) return !isCombatSportLeague(league, id);
+    return !isCombatSportLeague(null, id);
+  }, [league, id]);
+
+  const handleFallbackTeamClick = async (teamName) => {
+    setTeamLookupError("");
+    setResolvingTeamName(teamName);
+    try {
+      const data = await fetchFromSportsDB(`/search/team/${encodeURIComponent(teamName)}`);
+      const teamArray = data?.teams || data?.lookup || data?.search || [];
+      const exact = teamArray.find(
+        (team) => String(team?.strTeam || "").toLowerCase() === teamName.toLowerCase()
+      );
+      const first = exact || teamArray[0];
+      if (first?.idTeam) {
+        navigate(`/team/${first.idTeam}`);
+        return;
+      }
+
+      if (FALLBACK_USES_PLAYER_SEARCH.has(String(id))) {
+        const players = await searchPlayers(teamName);
+        const pExact = players.find(
+          (p) => String(p?.strPlayer || "").toLowerCase() === teamName.toLowerCase()
+        );
+        const p = pExact || players[0];
+        if (p?.idPlayer) {
+          navigate(`/player/${p.idPlayer}`);
+          return;
+        }
+      }
+
+      setTeamLookupError(`Could not find a team page for ${teamName}.`);
+    } catch {
+      setTeamLookupError(`Unable to open ${teamName} right now.`);
+    } finally {
+      setResolvingTeamName("");
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -207,25 +342,60 @@ function LeaguePage() {
             </div>
           </section>
 
-          {/* PLAYERS (placeholder for now)
-          <section className="league-bottom-grid">
-            <div className="league-panel">
-              <h2>Players</h2>
+          {showTeamsSection && (
+            <section className="league-bottom-grid">
+              <div className="league-panel">
+                <h2>Teams</h2>
 
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
-              />
+                <input
+                  className="player-search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Filter teams..."
+                />
 
-              {filteredPlayers.map((p, i) => (
-                <div key={i}>
-                  <p>{p.name}</p>
+                <p className="team-grid-status">
+                  Showing {filteredTeams.length} of {allTeams.length} teams
+                </p>
+
+                <div className="team-grid">
+                  {filteredTeams.map((team) => (
+                    team.isFallback ? (
+                      <button
+                        key={team.idTeam}
+                        type="button"
+                        className="team-grid-item team-grid-button"
+                        onClick={() => handleFallbackTeamClick(team.strTeam)}
+                        disabled={resolvingTeamName === team.strTeam}
+                      >
+                        <span className="team-grid-name">{team.strTeam}</span>
+                        <span className="team-grid-meta">
+                          {resolvingTeamName === team.strTeam
+                          ? "Opening..."
+                          : FALLBACK_USES_PLAYER_SEARCH.has(String(id))
+                            ? "Open player profile"
+                            : "Open team page"}
+                        </span>
+                      </button>
+                    ) : (
+                      <Link key={team.idTeam} to={`/team/${team.idTeam}`} className="team-grid-item">
+                        <span className="team-grid-name">{team.strTeam}</span>
+                        {team.strStadium && (
+                          <span className="team-grid-meta">{team.strStadium}</span>
+                        )}
+                      </Link>
+                    )
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-          */}
+
+                {teamLookupError && <p className="team-grid-empty">{teamLookupError}</p>}
+
+                {filteredTeams.length === 0 && (
+                  <p className="team-grid-empty">No teams match your filter.</p>
+                )}
+              </div>
+            </section>
+          )}
 
         </div>
       </div>

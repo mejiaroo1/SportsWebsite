@@ -22,6 +22,18 @@ function toSlugNoSpaces(query) {
     .replace(/[^a-z0-9]/g, "");
 }
 
+function stripDiacritics(query) {
+  return String(query)
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "");
+}
+
+function stripNameSuffix(query) {
+  return String(query)
+    .replace(/\b(jr|sr|ii|iii|iv|v)\.?$/i, "")
+    .trim();
+}
+
 const LEAGUE_ALIASES = {
   // Soccer
   laliga: ["LaLiga", "La Liga", "Spanish La Liga"],
@@ -35,10 +47,14 @@ async function searchWithSlugs(endpointBase, slugs, idKey) {
 
   const responses = await Promise.all(
     slugs.map(async (slug) => {
-      const data = await fetchFromSportsDB(
-        `/${endpointBase}/${encodeURIComponent(slug)}`
-      );
-      return data?.search || [];
+      try {
+        const data = await fetchFromSportsDB(
+          `/${endpointBase}/${encodeURIComponent(slug)}`
+        );
+        return data?.search || [];
+      } catch {
+        return [];
+      }
     })
   );
 
@@ -87,6 +103,29 @@ export async function searchTeams(query) {
 export async function searchPlayers(query) {
   if (!query) return [];
   const base = String(query).trim();
-  const slugs = [...new Set([toSlugUnderscore(base), toSlugNoSpaces(base)].filter(Boolean))];
-  return await searchWithSlugs("search/player", slugs.slice(0, 2), "idPlayer");
+  const ascii = stripDiacritics(base);
+  const baseNoSuffix = stripNameSuffix(base);
+  const asciiNoSuffix = stripNameSuffix(ascii);
+  const baseParts = baseNoSuffix.split(/\s+/).filter(Boolean);
+  const first = baseParts[0] || "";
+  const last = baseParts.length > 1 ? baseParts[baseParts.length - 1] : "";
+  const firstLast = [first, last].filter(Boolean).join(" ");
+
+  const slugs = [
+    ...new Set(
+      [
+        base,
+        ascii,
+        baseNoSuffix,
+        asciiNoSuffix,
+        first,
+        last,
+        firstLast,
+      ]
+        .flatMap((q) => [toSlugUnderscore(q), toSlugNoSpaces(q)])
+        .filter(Boolean)
+        .slice(0, 20)
+    ),
+  ];
+  return await searchWithSlugs("search/player", slugs, "idPlayer");
 }

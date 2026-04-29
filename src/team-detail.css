@@ -1,0 +1,118 @@
+/* Team detail — extends league-page layout */
+.team-detail-page .team-hero-left.team-hero-left {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-detail-page .team-hero-left.team-hero-left > *:not(.team-hero-badge-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.team-detail-page .team-hero-badge-watermark {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(46%, 260px);
+  max-height: 88%;
+  object-fit: contain;
+  object-position: center right;
+  opacity: 0.32;
+  filter: saturate(1.08) contrast(1.05);
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.team-detail-page .team-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.team-detail-page .league-panel > h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 14px 0;
+  color: #ffffff;
+}
+
+.team-detail-page .team-detail-state {
+  padding: 20px 22px;
+}
+
+.team-detail-page .list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+}
+
+.team-detail-page .list-row p {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+body.light-mode .team-detail-page .team-hero-badge-watermark {
+  opacity: 0.22;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.team-detail-page .team-detail-description-section {
+  margin-bottom: 20px;
+}
+
+.team-detail-page .team-detail-description-body {
+  color: #c8c8c8;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.team-detail-page .team-detail-description-empty {
+  margin: 0;
+  color: #9b9b9b;
+  font-size: 0.95rem;
+}
+
+.team-detail-page .team-detail-players-section {
+  margin-bottom: 20px;
+}
+
+/* Player roster uses same grid + card pattern as league Teams section */
+.team-detail-page .team-detail-players-section .team-grid .team-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  min-height: 148px;
+}
+
+.team-detail-page .team-detail-player-headshot {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #111;
+  flex-shrink: 0;
+}
+
+.team-detail-page .team-detail-player-headshot--empty {
+  background: linear-gradient(145deg, #2a2a2a, #111);
+}
+
+body.light-mode .team-detail-page .team-detail-description-body {
+  color: #444;
+}
+
+body.light-mode .team-detail-page .team-detail-description-empty {
+  color: #666;
+}
