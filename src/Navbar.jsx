@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { searchLeagues, searchTeams, searchPlayers } from "./api/search.js";
 import { FaHome } from "react-icons/fa";
-import "./HomePage.css";
+import "./homepage.css";
 
 const MIN_QUERY_LENGTH = 2;
 const MAX_LEAGUE_RESULTS = 40;
